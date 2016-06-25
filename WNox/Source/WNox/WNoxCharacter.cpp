@@ -5,6 +5,8 @@
 #include "Runtime/CoreUObject/Public/UObject/ConstructorHelpers.h"
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "WNoxCharacterMovementComponent.h"
+#include "ItemActor.h"
+#include "UnrealNetwork.h"
 
 AWNoxCharacter::AWNoxCharacter(const FObjectInitializer& ObjectInitializer /*= FObjectInitializer::Get()*/) 
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<UWNoxCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -46,7 +48,49 @@ void AWNoxCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
+bool AWNoxCharacter::PickupItem_Implementation(AItemActor *InItemActor)
+{
+	if (HasAuthority())
+	{
+		PickedItems.Add(InItemActor->GetItemInfo());
+		if (GetNetMode() == NM_ListenServer)
+		{
+			OnRep_PickedItems();
+		}
+	}
+	return true;
+}
+
+bool AWNoxCharacter::MatchItem_Implementation(int32 MatchType)
+{
+	if (!HasAuthority())
+		return false;
+
+	for (int32 i = 0; i < PickedItems.Num(); ++i)
+	{
+		if (PickedItems[i].TableRowInfo.MatchType == MatchType)
+		{
+			PickedItems.RemoveAtSwap(i);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void AWNoxCharacter::PostNetInit()
 {
 	Super::PostNetInit();
+}
+
+void AWNoxCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AWNoxCharacter, PickedItems);
+}
+
+void AWNoxCharacter::OnRep_PickedItems()
+{
+	OnPickedItemsChanged.Broadcast(PickedItems);
 }

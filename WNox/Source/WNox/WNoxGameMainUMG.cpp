@@ -6,4 +6,3 @@ UWNoxGameMainUMG::UWNoxGameMainUMG(const FObjectInitializer& ObjectInitalizer /*
 {
 
 }
-

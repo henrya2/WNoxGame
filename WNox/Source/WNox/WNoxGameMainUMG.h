@@ -10,4 +10,5 @@ class UWNoxGameMainUMG : public UUserWidget
 
 public:
 	UWNoxGameMainUMG(const FObjectInitializer& ObjectInitalizer = FObjectInitializer::Get());
+
 };
