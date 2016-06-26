@@ -28,9 +28,15 @@ public:
 
 	virtual void AddSpawnActorDisappearDelegate(const FOnSpawnedActorDisappearDelegate& InDelegate) override;
 
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FWNoxItemInfo ItemInfo;
+
+	UPROPERTY(VisibleAnywhere, Replicated, BlueprintReadWrite, Transient, Category = "Life")
+	uint32 bDeath : 1;
 
 	FOnSpawnedActorDisappearMultiDelegate ActorDisappearDelegate;
 };

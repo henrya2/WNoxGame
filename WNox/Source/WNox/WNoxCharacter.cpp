@@ -53,10 +53,7 @@ bool AWNoxCharacter::PickupItem_Implementation(AItemActor *InItemActor)
 	if (HasAuthority())
 	{
 		PickedItems.Add(InItemActor->GetItemInfo());
-		if (GetNetMode() == NM_ListenServer)
-		{
-			OnRep_PickedItems();
-		}
+		OnRep_PickedItems();
 	}
 	return true;
 }
@@ -71,6 +68,7 @@ bool AWNoxCharacter::MatchItem_Implementation(int32 MatchType)
 		if (PickedItems[i].TableRowInfo.MatchType == MatchType)
 		{
 			PickedItems.RemoveAtSwap(i);
+			OnRep_PickedItems();
 			return true;
 		}
 	}

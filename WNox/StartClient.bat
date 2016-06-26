@@ -1,0 +1,1 @@
+ "D:\Program Files\Epic Games\4.12\Engine\Binaries\Win64\UE4Editor.exe" "%CD%\WNox.uproject" -game -nosteam
