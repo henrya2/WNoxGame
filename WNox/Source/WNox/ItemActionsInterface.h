@@ -13,9 +13,9 @@ class WNOX_API IItemActionsInterface
 	GENERATED_IINTERFACE_BODY()
 
 public:
-	UFUNCTION(BlueprintNativeEvent, Category = "Pickup", meta = (DisplayName = "Pickup Item"))
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Pickup", meta = (DisplayName = "Pickup Item"))
 	bool PickupItem(class AItemActor* InItemActor);
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Match", meta = (DisplayName = "Match Item"))
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Match", meta = (DisplayName = "Match Item"))
 	bool MatchItem(int32 MatchType);
 };
