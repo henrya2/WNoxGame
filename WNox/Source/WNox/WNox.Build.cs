@@ -16,5 +16,11 @@ public class WNox : ModuleRules
             "SlateCore",
             "UMG"
         });
-	}
+
+        PrivateDependencyModuleNames.AddRange(new string[]
+        {
+            "OnlineSubsystem",
+            "OnlineSubsystemUtils"
+        });
+    }
 }
